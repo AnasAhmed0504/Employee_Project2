@@ -7,12 +7,12 @@
 
 """
 
-def valid_int_input(msg, start = None, end = None):
+def valid_int_input(msg, start = 0, end = None):
     while True:
         try:
             inp = int(input(msg))
-            if start is not None and (inp < start or inp < end):
-                print(f"minimum value must be >= {start} and <= {end}")
+            if start is not None and end is not None and (inp < start or inp > end):
+                print(f"input must be >= {start} and <= {end}")
                 continue
             return inp
 
@@ -39,7 +39,13 @@ class EmployeeManager():
         self.employees = []
     
     def add_emloyees(self, name, age, salary):
+        for emp in self.employees:
+            if emp.name == name:
+                print("Employee with such name is already Found.")
+                return
+
         self.employees.append(Employee(name, age, salary))
+        print(f"Added Empployee: {name}")
 
     def list_employees(self):
         if len(self.employees) == 0:
@@ -87,7 +93,7 @@ class FrontendManager():
        
         print("\n".join(menu))
         msg = f"Enter your choice from 1 to {len(menu)}: "
-        return valid_int_input(msg)
+        return valid_int_input(msg, 1, len(menu))
 
     def run(self):
        
